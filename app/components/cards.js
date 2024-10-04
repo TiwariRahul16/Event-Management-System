@@ -77,7 +77,7 @@ const Cards = () => {
             {loading && <div>Loading...</div>}
             {loading || events.length === 0 && <div>No past events found</div>}
             {events.map(event => (
-              <div key={event._id} className="w-full lg:w-[88%] md:w-[80%] sm:w-[88%] xs:w-full mx-auto shadow-2xl p-4 rounded-xl h-fit self-center dark:bg-gray-800/40">
+              <div key={event._id} className="w-full  lg:w-[88%] md:w-[80%] sm:w-[88%] xs:w-full mx-auto shadow-2xl p-4 rounded-xl h-fit self-center dark:bg-gray-800/40">
                 <div className="rounded-lg overflow-hidden shadow-lg group relative sm:w-full">
                   <img className="w-full object-cover h-auto group-hover:blur-sm transition duration-300" src={event.Eventpic} alt={event.topic} />
                   <div className="absolute inset-0 flex flex-col justify-center items-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition duration-300">
@@ -118,8 +118,8 @@ const Cards = () => {
             {loading || comingEvents.length === 0 && <div>No upcoming events found</div>}
             {comingEvents.map(event => (
               <div key={event._id} className="w-full lg:w-[88%] md:w-[80%] sm:w-[88%] xs:w-full mx-auto shadow-2xl p-4 rounded-xl h-fit self-center dark:bg-gray-800/40">
-                <div className="rounded-lg overflow-hidden shadow-lg group relative sm:w-full">
-                  <img className="w-full object-cover h-auto group-hover:blur-sm transition duration-300" src={event.Eventpic} alt={event.topic} />
+                <div className=" rounded-lg overflow-hidden shadow-lg group relative sm:w-full">
+                  <img className="min-h-44 w-full object-cover h-auto group-hover:blur-sm transition duration-300" src={event.Eventpic} alt={event.topic} />
                   <div className="absolute inset-0 flex flex-col justify-center items-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition duration-300">
                     <h2 className="text-white text-3xl font-bold">{event.topic}</h2>
                     <Link href={`/events/${event._id}`} className="mt-4 text-white text-lg underline">Read More</Link>

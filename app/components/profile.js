@@ -8,7 +8,7 @@ import Profileimage from './profileimage'
 
 
 const Profile = ({ params }) => {
-    const { data: session } = useSession()
+   const { data: session, status } = useSession();
     const router = useRouter()
     const [userdata, setuserdata] = useState({})
  
@@ -57,8 +57,24 @@ const Profile = ({ params }) => {
         } catch (error) {
           console.error('Error updating user:', error);
         }
+
+        window.location.reload();
       };
-      
+     
+
+      useEffect(() => {
+        if (status === "unauthenticated") {
+          router.push("/"); // Redirect to home if not logged in
+        }
+      }, [status]);
+    
+      if (status === "loading") {
+        return <div>Loading...</div>; // Loading state
+      }
+    
+      if (!session) {
+        return <div>You need to be logged in to access this page.</div>;
+      }
 
 
     return (

@@ -1,5 +1,6 @@
 "use client"
 import React, { useState, useEffect } from 'react';
+import { useSession, signIn } from "next-auth/react";
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Payments from './Payments';
@@ -10,12 +11,13 @@ const Dashboard = ({ params }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [visibleSection, setVisibleSection] = useState(null);
+  const router = useRouter();
+  const { data: session, status } = useSession();
 
   const handleToggle = (sectionId) => {
     setVisibleSection(visibleSection === sectionId ? null : sectionId);
   };
 
-  const router = useRouter();
 
   useEffect(() => {
     const fetchEvent = async () => {
@@ -35,7 +37,12 @@ const Dashboard = ({ params }) => {
     };
 
     fetchEvent();
-  }, [params.user]);
+
+    if (status === "unauthenticated") {
+      router.push("/"); // Redirect to home if not logged in
+    }
+
+  }, [params.user,status]);
 
   const handleDelete = async (eventId) => {
     try {
@@ -56,19 +63,19 @@ const Dashboard = ({ params }) => {
   };
 
 
-  const handleUpdate = (eventId) => {
-    router.push(`/updateEvent/${eventId}`);
-  };
-
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
+
+  if (!session) {
+    return <div>You need to be logged in to access this page.</div>;
+  }
 
   return (
     <>
 
-<section className="">
-<Profileimage />
-</section>
+      <section className="w-full">
+        <Profileimage />
+      </section>
 
       <section className="py-10 my-auto dark:bg-gray-900">
         <div className="flex justify-between text-xl font-bold w-full lg:w-[88%] md:w-[80%] sm:w-[88%] xs:w-full mx-auto shadow-2xl p-4 rounded-xl h-fit self-center dark:bg-gray-800/40">
@@ -95,7 +102,7 @@ const Dashboard = ({ params }) => {
     {events.map(event => (
       <div key={event._id} className="shadow-2xl p-4 rounded-xl h-fit self-center dark:bg-gray-800/40">
         <div className="rounded-lg overflow-hidden shadow-lg group relative">
-          <img className="w-full object-cover h-auto group-hover:blur-sm transition duration-300" src={event.Eventpic || "/images/Image1.jpg"} alt="Event Image" />
+          <img className="min-h-44 w-full object-cover h-auto group-hover:blur-sm transition duration-300" src={event.Eventpic || "/images/Image1.jpg"} alt="Event Image" />
           <div className="absolute inset-0 flex flex-col justify-center items-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition duration-300">
             <h2 className="text-white text-xl sm:text-2xl font-bold">{event.topic}</h2>
             <Link href={`/events/${event._id}`} className="mt-4 text-white text-lg underline">Read More</Link>

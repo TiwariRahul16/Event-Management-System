@@ -14,6 +14,7 @@ const Navbar = () => {
   const [dropdown, setdropdown] = useState(false)
   const [currentUser, setCurrentUser] = useState({});
   
+  
 
   const handleToggle = () => {
     setIsNavbarVisible(!isNavbarVisible);
@@ -21,7 +22,7 @@ const Navbar = () => {
 
   useEffect(() => {
     getData(Username);
-  }, [Username]);
+  },[Username]);
 
   const getData = async (Username) => {
     let u = await checkNavuser(Username);
@@ -63,7 +64,7 @@ const Navbar = () => {
                         <a href={`/${session.user.name}`} className="block px-4 py-2 sm:text-xl text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Profile</a>
                       </li>
                       <li>
-                        <button className="text-left w-full block px-4 py-2 sm:text-xl text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white" onClick={() => {signOut()}}>Sign out</button>
+                        <button className="text-left w-full block px-4 py-2 sm:text-xl text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white" onClick={() => signOut({ callbackUrl: '/' })}>Sign out</button>
                       </li>
                     </ul>
                   </div>

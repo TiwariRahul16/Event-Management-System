@@ -1,13 +1,14 @@
 "use client"
-import React from "react";
+import React,{useEffect} from "react";
 import { submitEvent } from "@/actions/UserAction";
-import { useSession } from "next-auth/react";
+import { useSession,signIn } from "next-auth/react";
 import { useRouter } from 'next/navigation'
 
 const CreateEvent = () => {
 
   const router = useRouter()
   const { data: session, status } = useSession();
+
 
   const handleSubmit = async (formData) => {
     if (status === "authenticated") {
@@ -33,11 +34,27 @@ const CreateEvent = () => {
     } else {
       console.log("User not authenticated.");
     }
+    alert("Event Created Successfully")
+    window.location.reload();
   };
   
-  if(!session) {
-    router.push(`/`)
-   } 
+  const handleCancel = () => {
+    window.location.reload(); // Reload the current page
+  };
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/"); // Redirect to home if not logged in
+    }
+  }, [status]);
+
+  if (status === "loading") {
+    return <div>Loading...</div>; // Loading state
+  }
+
+  if (!session) {
+    return <div>You need to be logged in to access this page.</div>;
+  }
   
 
   return (
@@ -83,7 +100,7 @@ const CreateEvent = () => {
           </div>
           <div className="space-x-4 mt-8">
             <button type="submit" className="sm:py-4 sm:px-10 text-lg py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50">Save</button>
-            <button className="sm:py-4 sm:px-10 text-lg py-2 px-4 bg-white border border-gray-200 text-gray-600 rounded hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50">Cancel</button>
+            <button type="button" onClick={handleCancel} className="sm:py-4 sm:px-10 text-lg py-2 px-4 bg-white border border-gray-200 text-gray-600 rounded hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50">Cancel</button>
           </div>
         </form>
       </div>

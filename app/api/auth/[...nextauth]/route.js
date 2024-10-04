@@ -48,6 +48,7 @@ export const authOptions = {
   pages: {
     signIn: '/auth/login', // Custom login page
     error: '/auth/error',  // Custom error page
+    signOut: '/',
   },
 
   callbacks: {

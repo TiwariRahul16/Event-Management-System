@@ -11,7 +11,7 @@ import { useRouter } from 'next/navigation';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Event = ({params}) => {
-    const { data: session } = useSession()
+    const { data: session, status } = useSession();
 
     const  Username = `${session?.user.name}`
     const [paymentform, setpaymentform] = useState({ name: "", message: ""})
@@ -126,6 +126,17 @@ const Event = ({params}) => {
 
      };
 
+
+     useEffect(() => {
+        if (status === "unauthenticated") {
+            Router.push("/"); // Redirect to home if not logged in
+        }
+      }, [status]);
+    
+    
+      if (!session) {
+        return <div>You need to be logged in to access this page.</div>;
+      }
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: No event found</div>;

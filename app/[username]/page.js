@@ -3,26 +3,36 @@ import React, { useState, useEffect } from 'react'
 import Cards from '../components/cards'
 import { checkuser } from '@/actions/UserAction'
 import { useRouter } from 'next/navigation'
-import { useSession } from "next-auth/react"
+import { useSession,signIn } from "next-auth/react"
 
 
 const Username = ({ params }) => {
   const [currentUser, setCurrentUser] = useState({});
   const router = useRouter()
-  const { data: session } = useSession()
-  const name1 = `${session?.user.name}`
-
-  useEffect(() => {
-    getData();
-  });
+  const { data: session, status } = useSession();
+ 
 
   const getData = async () => {
     let u = await checkuser(params);
     setCurrentUser(JSON.parse(u));
-    if (!name1) {
-      router.push('/')
-    }
   };
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/"); // Redirect to home if not logged in
+    }
+
+    getData();
+
+  }, [status]);
+
+  if (status === "loading") {
+    return <div>Loading...</div>; // Loading state
+  }
+
+  if (!session) {
+    return <div>You need to be logged in to access this page.</div>;
+  }
  
   return (
     <>
@@ -58,15 +68,6 @@ const Username = ({ params }) => {
 
 export default Username
 
-// export async function generateMetadata({ params }) {
-//   return {
-//     title:`CEMS-Profile-${params.username}`,
-//   }
-// }
-
-// export const metadata = {
-//   title: 'About-Get me chai',
-// }
 
 
 
