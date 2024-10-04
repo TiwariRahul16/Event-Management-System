@@ -3,13 +3,14 @@ import Cards from "./components/cards";
 import Contact from "./components/Contact_us";
 import About from "./components/about";
 import { useRouter } from 'next/navigation'
+import Image from "next/image";
 
 export default function Home() {
   const router = useRouter()
   return (
     <main className="pt-5 mx-1">
       <div className="sm:h-[60rem] h-60 " >
-        <img className=" sm:h-[60rem] h-60 w-full object-fill sm:object-cover " src="/images/event.jpg" alt="" />
+        <Image height={400} width={400} className=" sm:h-[60rem] h-60 w-full object-fill sm:object-cover " src="/images/event.jpg" alt="" />
         <div className="flex  flex-col text-white font-sans font-extrabold text-3xl sm:text-6xl md:text-9xl relative top-[-70%] items-center justify-center"><span>Campus</span> <span>Event Planner</span>
           <div className=" pt-5">
             <button onClick={() => router.push('/about')} className="relative text-sm sm:text-3xl inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden  font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">

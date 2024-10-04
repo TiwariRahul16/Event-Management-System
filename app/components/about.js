@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 
 const about = () => {
   return (
@@ -15,7 +16,7 @@ const about = () => {
                 </div>
             </div>
             <div className="mt-12 md:mt-0">
-                <img src="https://images.unsplash.com/photo-1531973576160-7125cd663d86" alt="About Us Image" className="object-cover rounded-lg shadow-md"/>
+                <Image height={400} width={700} src="/images/aboutoffice.jpg" alt="About Us Image" className="object-cover rounded-lg shadow-md"/>
             </div>
         </div>
     </div>
